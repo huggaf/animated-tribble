@@ -1,0 +1,29 @@
+  <section id="login-form" ng-controller="LoginCtrl" class="well" ng-show="showLogin">
+    <form ng-submit="sendForm()" ng-hide="user || !showLogin">
+      <p>
+        <label class="sr-only" for="login-username">Username:</label>
+        <input class="form-control" placeholder="username" id="login-username" type="username" ng-model="login.username">
+      </p>
+
+      <p>
+        <label class="sr-only" for="login-password">Senha:</label>
+        <input class="form-control" placeholder="Senha" id="login-password" type="password" ng-model="login.password">
+      </p>
+
+      <p ng-show="login.type == 'signin'">
+        <label class="sr-only" for="login-password-confirmation">Confirme:</label>
+        <input class="form-control" placeholder="Confirme" id="login-password-confirmation" type="password" ng-model="login.password_confirmation">
+      </p>
+
+      <p>
+        <span class="link" ng-click="login.type = 'login'"    ng-show="login.type == 'signin'">Já possuo conta</span>
+        <span class="link" ng-click="login.type = 'signin'"   ng-show="login.type == 'login'">Ainda não tenho conta</span>
+      </p>
+
+      <!-- botão e feedback de loading, utilização da tranca para o feedback -->
+      <p>
+        <button ng-hide="logging" class="btn btn-block btn-lg btn-info" ng-bind="btnTexts[login.type]"></button>
+        <div ng-show="logging" class="text-center"><img src="/assets/loading-gray.gif"> Carregando...</div>
+      </p>
+    </form>
+  </section>

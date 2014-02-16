@@ -1,0 +1,9 @@
+<table>
+  <% @products.each do |product| %>
+  <tr>
+    <td><%= product.name %></td>
+    <td><%= button_to "Add $ #{product.price}" %></td>
+  </tr>
+  <% end %>
+
+</table>
