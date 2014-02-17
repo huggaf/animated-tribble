@@ -10,14 +10,18 @@ class ApplicationController < ActionController::Base
     render text: '', layout: 'application'
   end
 
-  protected
+  def logged?
+    current_user.present?
+  end
+  helper_method :logged?
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id].present?
   end
   helper_method :current_user
 
+  protected
   def restrict_access
-    render json: {errors: ["Acesso restrito, informe usuário e senha"]}, status: :unauthorized unless current_user.present?
+    render json: {errors: ["Acesso restrito, informe usuário e senha"]}, status: :unauthorized unless logged?
   end
 end

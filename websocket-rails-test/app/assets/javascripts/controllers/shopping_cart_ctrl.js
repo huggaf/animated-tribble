@@ -1,4 +1,4 @@
-var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scope, $rootScope, OrderResource){
+var ShoppingCartCtrl = ["$scope", "$rootScope", "$webSocketRails", "OrderResource", function ($scope, $rootScope, $webSocketRails, OrderResource){
 
   $scope.order = null;
 
@@ -14,7 +14,6 @@ var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scop
       $scope.loading_order = false;
     })
   }
-  $scope.reloadOrder();
 
   $scope.total = function(){
     if($scope.order && $scope.order.order_items.length > 0){
@@ -36,7 +35,6 @@ var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scop
     $rootScope.messages = [];
 
     OrderResource.updateProduct({product_id: order_item.product_id, amount: order_item.amount+1}, function(data){
-      $scope.updateFromList(data);
       $scope.changing = false;
     }, function(response){
       $rootScope.responseErrors(response);
@@ -51,7 +49,6 @@ var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scop
     $rootScope.messages = [];
 
     OrderResource.updateProduct({product_id: order_item.product_id, amount: order_item.amount-1}, function(data){
-      $scope.updateFromList(data);
       $scope.changing = false;
     }, function(response){
       $rootScope.responseErrors(response);
@@ -66,7 +63,6 @@ var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scop
     $rootScope.messages = [];
 
     OrderResource.removeProduct({product_id: order_item.product_id}, function(data){
-      $scope.removeFromList(data.id);
       $scope.changing = false;
     }, function(response){
       $rootScope.responseErrors(response);
@@ -100,7 +96,13 @@ var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scop
     return -1;
   }
 
-
+  $scope.init = function(){
+    $scope.reloadOrder();
+    $webSocketRails.scope($scope)
+      .on('order_items.created', function(data){ $scope.updateFromList(data); })
+      .on('order_items.updated', function(data){ $scope.updateFromList(data); })
+      .on('order_items.deleted', function(data){ $scope.removeFromList(data.id); });
+  }
 
 }]
 

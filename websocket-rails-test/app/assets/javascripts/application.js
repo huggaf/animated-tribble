@@ -14,12 +14,16 @@
 //= require 'lib/angular-route.min.js'
 //= require 'lib/angular-resource.min.js'
 //= require 'lib/angular-sanitize.min.js'
+//= require 'lib/angular-websocket-rails.js'
+//= require websocket_rails/main
 //= require_self
 //= require_tree .
-// REQUIRE websocket_rails/main
 
-var app = angular.module('app', ['ngSanitize', 'ngResource', 'ngRoute'],
-                                  ['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,$locationProvider,$httpProvider){
+var app = angular.module('app', ['ngSanitize', 'ngResource', 'ngRoute', 'ngWebSocketRails'])
+
+app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$webSocketRailsProvider', function($routeProvider,$locationProvider,$httpProvider,$webSocketRailsProvider){
+
+  $webSocketRailsProvider.path ='localhost:3000/websocket';
 
   // cache and history with pre-loaded sources
   $locationProvider.html5Mode(true);

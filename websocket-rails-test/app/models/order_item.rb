@@ -8,7 +8,16 @@ class OrderItem < ActiveRecord::Base
 
   before_save :calc_totals
 
+  after_create  {|order_item| order_item.send_message('order_items.created', OrderItemSerializer.new(order_item).serializable_hash) }
+  after_update  {|order_item| order_item.send_message('order_items.updated', OrderItemSerializer.new(order_item).serializable_hash) }
+  after_destroy {|order_item| order_item.send_message('order_items.deleted', {id: order_item.id}) }
+
   protected
+
+  def send_message(event, data)
+    connection = WebsocketRails.users[self.order.user_id]
+    connection.send_message(event, data);
+  end
 
   def calc_totals
     self.value = self.product.price
