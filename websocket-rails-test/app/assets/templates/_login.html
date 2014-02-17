@@ -1,5 +1,5 @@
-  <section id="login-form" ng-controller="LoginCtrl" class="well" ng-show="showLogin">
-    <form ng-submit="sendForm()" ng-hide="user || !showLogin">
+  <section id="login-form" ng-controller="LoginCtrl" class="well" ng-show="!user">
+    <form ng-submit="sendForm()">
       <p>
         <label class="sr-only" for="login-username">Username:</label>
         <input class="form-control" placeholder="username" id="login-username" type="username" ng-model="login.username">

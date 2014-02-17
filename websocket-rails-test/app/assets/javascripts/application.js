@@ -57,11 +57,10 @@ app.run(['$rootScope', '$location', 'UserResource', 'SessionResource', function(
   };
 
   $rootScope.logout = function(){
-    if(confirm('Deseja sair realmente?'))
-      SessionResource.logout(function(){
-        $rootScope.user = null;
-        $location.path('/');
-      })
+    SessionResource.logout(function(){
+      $rootScope.user = null;
+      $location.path('/');
+    })
   }
 
   $rootScope.responseErrors = function(response){
