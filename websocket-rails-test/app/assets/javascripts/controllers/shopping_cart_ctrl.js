@@ -1,6 +1,20 @@
 var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scope, $rootScope, OrderResource){
+
   $scope.order = null;
-  OrderResource.show(function(data){$scope.order = data})
+
+  $scope.reloadOrder = function(){
+    if($scope.loading_order){return}
+    $scope.loading_order = true;
+    $scope.order = null;
+
+    OrderResource.show(function(data){
+      $scope.order = data;
+      $scope.loading_order = false;
+    }, function(){
+      $scope.loading_order = false;
+    })
+  }
+  $scope.reloadOrder();
 
   $scope.total = function(){
     if($scope.order && $scope.order.order_items.length > 0){
@@ -85,6 +99,8 @@ var ShoppingCartCtrl = ["$scope", "$rootScope", "OrderResource", function ($scop
 
     return -1;
   }
+
+
 
 }]
 

@@ -9,33 +9,7 @@
   </li>
 </ul>
 
-
-<div class="col-md-4" ng-controller="ShoppingCartCtrl">
-  <div ng-show="user" class="panel panel-primary">
-    <div class="panel-heading"><i class="glyphicon glyphicon-shopping-cart"></i> Pedido</div>
-    <div class="panel-body">
-
-      <ul class="list-group row">
-        <li ng-repeat="item in order.order_items" class="list-group-item">
-          {{item.product.name}}
-          <span class="badge">
-            <i ng-click="subtract(item)" class="glyphicon glyphicon-minus-sign"></i>
-            {{item.amount}}
-            <i ng-click="add(item)" class="glyphicon glyphicon-plus-sign"></i>
-            {{item.total|currency}}
-            <i ng-click="remove(item)" class="glyphicon glyphicon-trash"></i>
-          </span>
-        </li>
-      </ul>
-
-    </div>
-    <div class="panel-footer">
-      <div class="text-right"><b>total: {{total()|currency}}</b></div>
-
-      <button class="btn btn-primary">Comprar</button>
-    </div>
-  </div>
-</div>
+<div class="col-md-4" ng-include="user&&'/assets/_shopping_cart.html'"></div>
 
 
 </section>
